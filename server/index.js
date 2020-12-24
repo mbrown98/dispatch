@@ -1,6 +1,7 @@
 const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
+const cors = require("cors");
 
 const router = require("./router");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
@@ -17,6 +18,7 @@ const io = socketio(server, {
     origin: "*",
   },
 });
+app.use(router);
 
 io.on("connection", (socket) => {
   console.log("We have a new connection!");
@@ -66,7 +68,5 @@ io.on("connection", (socket) => {
     }
   });
 });
-
-app.use(router);
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
