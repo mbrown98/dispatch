@@ -3,6 +3,7 @@ const socketio = require("socket.io");
 const http = require("http");
 
 const router = require("./router");
+const { callbackify } = require("util");
 
 const app = express();
 
@@ -14,6 +15,10 @@ const io = socketio(server);
 
 io.on("connection", (socket) => {
   console.log("We have a new connection!");
+
+  socket.on("join", ({ name, room }, callback) => {
+    console.log({ name, room });
+  });
   socket.on("disconnect", () => {
     console.log("User has left");
   });
