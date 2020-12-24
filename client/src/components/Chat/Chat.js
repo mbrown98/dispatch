@@ -3,6 +3,8 @@ import queryString from "query-string";
 import io from "socket.io-client";
 import "./chat.css";
 import InfoBar from "../InfoBar/InfoBar";
+import Input from "../Input/Input";
+import Messages from "../Messages/Messages";
 let socket;
 
 const Chat = ({ location }) => {
@@ -14,7 +16,7 @@ const Chat = ({ location }) => {
   useEffect(() => {
     const { room, name } = queryString.parse(location.search);
     // socket = io(ENDPOINT);
-    socket = io("http://localhost:5000", { transports: ["websocket"] });
+    socket = io(ENDPOINT);
     setName(name);
     setRoom(room);
 
@@ -48,13 +50,12 @@ const Chat = ({ location }) => {
     <div className="outerContainer">
       <div className="container">
         <InfoBar room={room} />
-        {/* <input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={(e) =>
-            e.key === "Enter" ? sendMessage(e) : console.log("not enter", e.key)
-          }
-        /> */}
+        <Messages messages={messages} name={name} />
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
       </div>
     </div>
   );
